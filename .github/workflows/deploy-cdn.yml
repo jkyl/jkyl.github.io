@@ -1,0 +1,18 @@
+name: Deploy CDN
+
+on:
+  push:
+    branches: [main]
+    paths: ['cdn/**']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger webhook
+        run: |
+          SIGNATURE="sha256=$(echo -n '{}' | openssl dgst -sha256 -hmac '${{ secrets.WEBHOOK_SECRET }}' | cut -d' ' -f2)"
+          curl -sf -X POST https://audio.jkyl.io/webhook \
+            -H "X-Hub-Signature-256: $SIGNATURE" \
+            -H "Content-Type: application/json" \
+            -d '{}'

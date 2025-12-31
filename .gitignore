@@ -1,0 +1,14 @@
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.venv
+.DS_Store
+CLAUDE.md
+.claude/
+.ruff_cache/
+scripts/
+.env
+
