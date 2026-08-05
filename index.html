@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://github.com/jkyl.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+  <title>Jon Kyl</title>
+  <style>
+    section {
+      display: none;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    nav a.active {
+      font-weight: bold;
+    }
+
+    .track {
+      cursor: pointer;
+    }
+
+    .track:hover {
+      text-decoration: underline;
+    }
+
+    .track.active {
+      font-weight: bold;
+    }
+
+    .player-controls button.active {
+      background: #c0c0c0;
+    }
+
+    .player audio {
+      width: 100%;
+      max-width: 500px;
+      display: block;
+      margin-top: 8px;
+    }
+
+    #blog-content img {
+      max-width: 100%;
+    }
+
+    #blog-content pre {
+      overflow-x: auto;
+    }
+
+    #blog-content table,
+    #blog-content th,
+    #blog-content td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    #blog-content th,
+    #blog-content td {
+      padding: 2px 8px;
+    }
+
+    #blog-content blockquote {
+      border-left: 3px solid #ccc;
+      margin-left: 0;
+      padding-left: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jon Kyl</h1>
+    <p><i>Research engineer &mdash; San Francisco, CA</i></p>
+    <nav>[ <a href="#cv" class="active">cv</a> | <a href="#portfolio">portfolio</a> | <a href="#music">music</a> | <a href="#contact">contact</a> | <a href="#blog">blog</a> ]</nav>
+    <hr>
+  </header>
+
+  <main>
+    <section id="cv" class="active">
+      <p>Research engineer with 8+ years in generative AI. Expert in diffusion models, large-scale pretraining, and real-time inference.</p>
+
+      <h2>Employment</h2>
+      <ul>
+        <li><a href="https://cartesia.ai">Cartesia</a>, Member of Technical Staff, 2026&ndash;present. Working on pretraining.</li>
+        <li><a href="https://mirage.app">Mirage</a>, Research Engineer, 2025&ndash;2026. Multimodal foundation models. Diffusion-based VAEs. Reward models. Streaming dataloaders.</li>
+        <li><a href="https://unity.com">Unity</a>, Senior ML Engineer, 2019&ndash;2025. Diffusion models for 3D textures. Inverse rendering. Conditional GANs for terrain generation.</li>
+        <li><a href="https://huawei.com">Huawei</a>, Senior ML Engineer, 2018&ndash;2019. Real-time video super-resolution on mobile. Raytracing denoising. Dev tools for NPUs.</li>
+        <li><a href="https://www.linkedin.com/company/avvir">Avvir</a>, ML Engineer, 2017&ndash;2018. Semantic segmentation on pointclouds. 3D mesh registration. Anomaly detection for construction QA.</li>
+      </ul>
+
+      <h2>Education</h2>
+      <ul>
+        <li><a href="https://uchicago.edu">University of Chicago</a>, B.A. Physics with Honors, 2012&ndash;2016. Thesis on ground-based CMB astronomy. Graduate coursework in computer science. Research assistant in multidisciplinary genAI lab.</li>
+      </ul>
+    </section>
+
+    <section id="portfolio">
+      <h2>Projects</h2>
+      <ul>
+        <li><a href="https://github.com/jkyl/just-image-transformer">just-image-transformer</a> &mdash; Diffusion transformer trained directly in image space via x-prediction.</li>
+        <li><a href="https://github.com/jkyl/nnx-gru">nnx-gru</a> &mdash; Linear RNN language model combining parallelized training and linear-time inference.</li>
+        <li><a href="https://github.com/jkyl/vq-vae">vq-vae</a> &mdash; Vector-quantized autoencoder for compressing raw audio into discrete codes.</li>
+        <li><a href="https://github.com/jkyl/biggan">biggan</a> &mdash; Class-conditional image GAN following the seminal paper.</li>
+        <li><a href="https://huggingface.co/datasets/jon-kyl/imagenet-sdxl-quantized">imagenet-sdxl-quantized</a> &mdash; ImageNet pre-encoded with SDXL VAE and quantized using an optimized nonlinearity.</li>
+      </ul>
+    </section>
+
+    <section id="music">
+      <div id="music-auth">
+        <p>
+          <input type="password" id="music-password" placeholder="password">
+          <button id="music-submit">Enter</button>
+        </p>
+        <p id="music-error" style="color: red; display: none;">Incorrect password.</p>
+      </div>
+      <div id="music-content" style="display: none;">
+        <h2>DJ Mixes</h2>
+        <div class="player" id="mix-player">
+          <p><b class="player-title">--</b></p>
+          <p class="player-controls">
+            <button class="prev">&#9198;</button>
+            <button class="next">&#9197;</button>
+            <button class="shuffle">&#10542;</button>
+          </p>
+        </div>
+        <ul class="tracklist" id="mix-tracklist"></ul>
+
+        <h2>Original Tunes</h2>
+        <div class="player" id="tunes-player">
+          <p><b class="player-title">--</b></p>
+          <p class="player-controls">
+            <button class="prev">&#9198;</button>
+            <button class="next">&#9197;</button>
+            <button class="shuffle">&#10542;</button>
+          </p>
+        </div>
+        <ul class="tracklist" id="tunes-tracklist"></ul>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <ul>
+        <li>Email: <a href="mailto:jonathan5kyl@gmail.com">jonathan5kyl@gmail.com</a></li>
+        <li>GitHub: <a href="https://github.com/jkyl">github.com/jkyl</a></li>
+        <li>LinkedIn: <a href="https://linkedin.com/in/j-kyl">linkedin.com/in/j-kyl</a></li>
+        <li>Hugging Face: <a href="https://huggingface.co/jon-kyl">huggingface.co/jon-kyl</a></li>
+      </ul>
+    </section>
+
+    <section id="blog">
+      <div id="blog-list">
+        <h2>Posts</h2>
+      </div>
+      <div id="blog-post" style="display: none;">
+        <p><a href="#blog" class="blog-back">&larr; back</a></p>
+        <article id="blog-content"></article>
+      </div>
+    </section>
+
+  </main>
+
+  <audio id="audio" controls crossorigin="use-credentials" style="display:none"></audio>
+
+  <footer>
+    <hr>
+    <p><i>Last updated August 2026</i></p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/bash.min.js"></script>
+  <script>hljs.configure({ ignoreUnescapedHTML: true });</script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@15/marked.min.js"></script>
+  <script>
+    // When developing over an SSH tunnel, talk to the CDN through a forwarded
+    // localhost port so its session cookie isn't a blocked third-party cookie.
+    const AUDIO_BASE = ['localhost', '127.0.0.1'].includes(location.hostname)
+      ? 'http://localhost:8888'
+      : 'https://audio.jkyl.io';
+
+    async function hashPassword(password) {
+      const data = new TextEncoder().encode(password);
+      const hash = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function unlockMusic() {
+      document.getElementById('music-auth').style.display = 'none';
+      document.getElementById('music-content').style.display = 'block';
+      localStorage.setItem('music-unlocked', 'true');
+    }
+
+    // Check if session is still valid
+    async function checkSession() {
+      if (localStorage.getItem('music-unlocked') !== 'true') return;
+      try {
+        const res = await fetch(`${AUDIO_BASE}/mixes/index.jsonl`, { credentials: 'include' });
+        if (res.ok) {
+          unlockMusic();
+        } else {
+          localStorage.removeItem('music-unlocked');
+        }
+      } catch {
+        localStorage.removeItem('music-unlocked');
+      }
+    }
+    checkSession();
+
+    async function tryUnlock() {
+      const password = document.getElementById('music-password').value;
+      const hash = await hashPassword(password);
+      const res = await fetch(`${AUDIO_BASE}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ hash })
+      });
+      if (res.ok) {
+        localStorage.setItem('music-unlocked', 'true');
+        location.reload();
+      } else {
+        document.getElementById('music-error').style.display = 'block';
+      }
+    }
+
+    document.getElementById('music-password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') tryUnlock();
+    });
+
+    document.getElementById('music-submit').addEventListener('click', tryUnlock);
+
+    // Navigation with proper URL hash support
+    const navLinks = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('section');
+
+    function showSection(id) {
+      // Handle blog sub-routes: blog/slug
+      const blogSlug = id.startsWith('blog/') ? id.slice(5) : null;
+      const sectionId = blogSlug ? 'blog' : id;
+
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + sectionId));
+      sections.forEach(s => s.classList.toggle('active', s.id === sectionId));
+
+      if (sectionId === 'blog') {
+        if (blogSlug) {
+          loadPost(blogSlug);
+        } else {
+          showBlogList();
+        }
+      }
+
+      // Preload the first station for this section if no station is active
+      if (!activeStation) {
+        for (const stationId in stations) {
+          if (stations[stationId].section === sectionId) {
+            preloadStation(stations[stationId]);
+            break;
+          }
+        }
+      }
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = link.getAttribute('href').slice(1);
+        showSection(target);
+        history.pushState(null, '', '#' + target);
+        e.preventDefault();
+      });
+    });
+
+    window.addEventListener('hashchange', () => {
+      showSection(location.hash.slice(1) || 'cv');
+    });
+
+    // Audio player with single shared element
+    const audio = document.getElementById('audio');
+    let activeStation = null;
+
+    // Save player state for persistence
+    function savePlayerState() {
+      if (activeStation && activeStation.currentIdx >= 0) {
+        localStorage.setItem('player-state', JSON.stringify({
+          stationId: activeStation.id,
+          trackIdx: activeStation.currentIdx,
+          position: audio.currentTime,
+          playing: !audio.paused
+        }));
+      }
+    }
+
+    // Save state periodically and on unload
+    setInterval(savePlayerState, 1000);
+    window.addEventListener('beforeunload', () => {
+      savePlayerState();
+      audio.pause();
+      audio.oncanplay = null;
+      audio.onerror = null;
+      audio.src = '';
+    });
+
+    const stationConfigs = [
+      { id: 'mix', playerId: 'mix-player', tracklistId: 'mix-tracklist', path: `${AUDIO_BASE}/mixes`, json: `${AUDIO_BASE}/mixes/index.jsonl`, section: 'music' },
+      { id: 'tunes', playerId: 'tunes-player', tracklistId: 'tunes-tracklist', path: `${AUDIO_BASE}/original-tunes`, json: `${AUDIO_BASE}/original-tunes/index.jsonl`, section: 'music' }
+    ];
+
+    const stations = {};
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function initStation(cfg) {
+      const container = document.getElementById(cfg.playerId);
+      const tracklist = document.getElementById(cfg.tracklistId);
+      const title = container.querySelector('.player-title');
+      const shuffleBtn = container.querySelector('.shuffle');
+
+      const station = {
+        id: cfg.id,
+        section: cfg.section,
+        path: cfg.path,
+        tracks: [],
+        currentIdx: -1,
+        shuffleOrder: [],
+        shufflePos: 0,
+        shuffleOn: false,
+        container, tracklist, title, shuffleBtn
+      };
+
+      container.querySelector('.prev').onclick = () => move(station, -1);
+      container.querySelector('.next').onclick = () => move(station, 1);
+      shuffleBtn.onclick = () => {
+        station.shuffleOn = !station.shuffleOn;
+        shuffleBtn.classList.toggle('active', station.shuffleOn);
+        if (station.shuffleOn && station.tracks.length) {
+          station.shuffleOrder = shuffle([...Array(station.tracks.length).keys()]);
+          station.shufflePos = 0;
+        }
+      };
+
+      fetch(cfg.json, { credentials: 'include' })
+        .then(r => r.text())
+        .then(text => text.trim().split('\n').filter(line => line).map(line => JSON.parse(line)))
+        .then(tracks => {
+          station.tracks = tracks;
+          station.shuffleOrder = shuffle([...Array(tracks.length).keys()]);
+          station.shufflePos = 0;
+          render(station);
+
+          // Restore saved state if this is the station that was playing
+          const saved = localStorage.getItem('player-state');
+          if (saved) {
+            try {
+              const state = JSON.parse(saved);
+              if (state.stationId === station.id && state.trackIdx < tracks.length) {
+                loadTrack(station, state.trackIdx, false);
+                audio.addEventListener('loadedmetadata', function restore() {
+                  audio.removeEventListener('loadedmetadata', restore);
+                  audio.currentTime = state.position || 0;
+                  if (state.playing) {
+                    audio.play().catch(() => {});
+                  }
+                });
+                return; // Skip preload since we restored
+              }
+            } catch (e) {}
+          }
+
+          // Preload if this station's section is currently active and no station loaded yet
+          const currentSection = location.hash.slice(1) || 'contact';
+          if (station.section === currentSection && !activeStation) {
+            preloadStation(station);
+          }
+        })
+        .catch(() => {});
+
+      return station;
+    }
+
+    function render(station) {
+      station.tracklist.innerHTML = station.tracks.map((t, i) =>
+        `<li class="track${i === station.currentIdx && activeStation === station ? ' active' : ''}" data-i="${i}">${t.title}</li>`
+      ).join('');
+      station.tracklist.querySelectorAll('.track').forEach(el => {
+        el.onclick = () => {
+          const idx = parseInt(el.dataset.i);
+          loadTrack(station, idx, true);
+        };
+      });
+    }
+
+    function loadTrack(station, idx, autoplay) {
+      if (idx < 0 || idx >= station.tracks.length) return;
+
+      // Switch active station
+      if (activeStation && activeStation !== station) {
+        activeStation.title.textContent = '--';
+        activeStation.currentIdx = -1;
+        render(activeStation);
+      }
+      activeStation = station;
+      station.currentIdx = idx;
+
+      // Update shufflePos to match current track if in shuffle mode
+      if (station.shuffleOn) {
+        const pos = station.shuffleOrder.indexOf(idx);
+        if (pos >= 0) station.shufflePos = pos;
+      }
+
+      // Move audio element to this station's player
+      audio.pause();
+      audio.style.display = '';
+      station.container.appendChild(audio);
+
+      const track = station.tracks[idx];
+      station.title.textContent = track.title;
+
+      // Clear any pending play handlers
+      audio.oncanplay = null;
+      audio.onerror = null;
+
+      audio.src = `${station.path}/${encodeURIComponent(track.file)}`;
+
+      if (autoplay) {
+        audio.oncanplay = () => {
+          audio.oncanplay = null;
+          audio.play().catch(() => {});
+        };
+        audio.onerror = () => {
+          audio.onerror = null;
+          // Skip to next track on error
+          setTimeout(() => move(station, 1), 100);
+        };
+      }
+
+      render(station);
+    }
+
+    function move(station, dir) {
+      if (!station.tracks.length) return;
+
+      let newIdx;
+      if (station.shuffleOn) {
+        station.shufflePos = (station.shufflePos + dir + station.shuffleOrder.length) % station.shuffleOrder.length;
+        if (station.shufflePos === 0 && dir > 0) {
+          // Reshuffle when wrapping
+          station.shuffleOrder = shuffle([...Array(station.tracks.length).keys()]);
+        }
+        newIdx = station.shuffleOrder[station.shufflePos];
+      } else {
+        // Sequential order by index
+        const current = station.currentIdx >= 0 ? station.currentIdx : 0;
+        newIdx = (current + dir + station.tracks.length) % station.tracks.length;
+      }
+      loadTrack(station, newIdx, true);
+    }
+
+    function preloadStation(station) {
+      if (!station.tracks.length) return;
+      // Always reload to ensure audio element is properly attached and loaded
+      const idx = station.shuffleOn ? station.shuffleOrder[station.shufflePos] : 0;
+      loadTrack(station, idx, false);
+    }
+
+    audio.addEventListener('ended', () => {
+      if (activeStation) setTimeout(() => move(activeStation, 1), 100);
+    });
+
+    // Blog
+    let blogPostsCache = null;
+
+    async function fetchBlogPosts() {
+      if (blogPostsCache) return blogPostsCache;
+      const res = await fetch('posts/index.json');
+      blogPostsCache = await res.json();
+      return blogPostsCache;
+    }
+
+    function renderBlogList(posts) {
+      const container = document.getElementById('blog-list');
+      container.innerHTML = '<h2>Posts</h2><ul>' + posts.map(p =>
+        `<li><a href="#blog/${p.slug}">${p.title}</a> (${p.date}) &mdash; ${p.description}</li>`
+      ).join('') + '</ul>';
+    }
+
+    async function showBlogList() {
+      document.getElementById('blog-list').style.display = '';
+      document.getElementById('blog-post').style.display = 'none';
+      try {
+        const posts = await fetchBlogPosts();
+        renderBlogList(posts);
+      } catch {}
+    }
+
+    async function loadPost(slug) {
+      document.getElementById('blog-list').style.display = 'none';
+      document.getElementById('blog-post').style.display = '';
+      const content = document.getElementById('blog-content');
+      content.innerHTML = '<p><i>Loading...</i></p>';
+      try {
+        const res = await fetch(`posts/${slug}.md`);
+        if (!res.ok) {
+          content.innerHTML = '<p style="color: red;">Post not found.</p>';
+          return;
+        }
+        const md = await res.text();
+        content.innerHTML = marked.parse(md);
+        // Syntax highlighting
+        content.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+        // Rewrite relative image paths to posts/ prefix
+        content.querySelectorAll('img').forEach(img => {
+          const src = img.getAttribute('src');
+          if (src && !src.startsWith('http') && !src.startsWith('/') && !src.startsWith('posts/')) {
+            img.src = 'posts/' + src;
+          }
+        });
+      } catch {
+        content.innerHTML = '<p style="color: red;">Failed to load post.</p>';
+      }
+    }
+
+    // Initialize
+    stationConfigs.forEach(cfg => {
+      stations[cfg.id] = initStation(cfg);
+    });
+
+    // Handle initial hash after stations exist
+    if (location.hash) {
+      showSection(location.hash.slice(1));
+    }
+
+    // Global keyboard controls on music tab
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('music').classList.contains('active')) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (audio.paused) {
+          audio.play().catch(() => {});
+        } else {
+          audio.pause();
+        }
+      } else if (e.code === 'ArrowRight' && activeStation) {
+        e.preventDefault();
+        move(activeStation, 1);
+      }
+      else if (e.code === 'ArrowLeft' && activeStation) {
+        e.preventDefault();
+        move(activeStation, -1);
+      }
+    });
+  </script>
+</body>
+</html>

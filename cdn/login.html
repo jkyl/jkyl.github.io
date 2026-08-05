@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>audio.jkyl.io</title>
+  <style>
+    body { background: #282828; color: #ebdbb2; font-family: monospace; padding: 2rem; }
+    input, button { background: #3c3836; color: #ebdbb2; border: 1px solid #504945; padding: 0.5rem; font-family: inherit; }
+    button { cursor: pointer; }
+    button:hover { background: #504945; }
+    .err { color: #fb4934; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>audio.jkyl.io</h1>
+  <input type="password" id="pw" placeholder="password" autofocus>
+  <button onclick="login()">login</button>
+  <div id="msg"></div>
+  <script>
+    async function hash(pw) {
+      const data = new TextEncoder().encode(pw);
+      const buf = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    async function login() {
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ hash: await hash(document.getElementById('pw').value) })
+      });
+      if (res.ok) {
+        location.reload();
+      } else {
+        document.getElementById('msg').className = 'err';
+        document.getElementById('msg').textContent = 'wrong password';
+      }
+    }
+    document.getElementById('pw').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
+  </script>
+</body>
+</html>
